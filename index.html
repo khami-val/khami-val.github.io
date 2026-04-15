@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMBR STUDIO — Creative Fuel for Media Buyers</title>
+<title>EMBR STUDIO — Креативы для медиабайеров</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -869,6 +869,46 @@ footer { border-top: 1px solid var(--border); padding: 0; }
   .foot-links { gap: 14px; flex-wrap: wrap; }
   .foot-copy { text-align: left; padding-bottom: 0; }
 }
+
+/* ── SOCIAL ICONS ── */
+.social-icons {
+  display: flex; align-items: center; gap: 8px;
+}
+.soc-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s;
+  background: transparent;
+  flex-shrink: 0;
+}
+.soc-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+.soc-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.foot-socials {
+  display: flex; align-items: center; gap: 10px;
+}
+.foot-soc {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 17px;
+  transition: all 0.2s;
+}
+.foot-soc:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+.foot-soc svg { width: 17px; height: 17px; fill: currentColor; }
+
+@media (max-width: 600px) {
+  .social-icons { gap: 6px; }
+  .soc-btn { width: 30px; height: 30px; font-size: 14px; }
+}
 </style>
 </head>
 <body>
@@ -887,10 +927,15 @@ footer { border-top: 1px solid var(--border); padding: 0; }
     </ul>
     <div class="nav-right">
       <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
       </div>
-      <a class="nav-tg" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+      <div class="social-icons">
+        <a class="soc-btn" href="https://t.me/embr_chat" target="_blank" rel="noopener" title="Telegram чат"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a class="soc-btn" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a class="soc-btn" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+      </div>
+      <a class="nav-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
         <span class="tg-icon">✈</span>
         <span data-lang="en" class="active">Telegram</span>
         <span data-lang="ru" class="active">Telegram</span>
@@ -909,9 +954,14 @@ footer { border-top: 1px solid var(--border); padding: 0; }
   <a href="#process"  onclick="closeMenu()"><span data-lang="en" class="active">Process</span><span data-lang="ru" class="active">Процесс</span></a>
   <a href="#results"  onclick="closeMenu()"><span data-lang="en" class="active">Results</span><span data-lang="ru" class="active">Результаты</span></a>
   <a href="#reviews"  onclick="closeMenu()"><span data-lang="en" class="active">Reviews</span><span data-lang="ru" class="active">Отзывы</span></a>
+  <div class="foot-socials" style="margin-top:16px;gap:10px">
+    <a class="foot-soc" href="https://t.me/embr_chat" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+    <a class="foot-soc" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a class="foot-soc" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+  </div>
   <div class="mobile-lang">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
   </div>
 </div>
 
@@ -937,7 +987,7 @@ footer { border-top: 1px solid var(--border); padding: 0; }
           <span data-lang="ru" class="active">Производим <strong>рекламные креативы для Meta, PWA и полный цикл гемблинг-контента</strong> — для команд, которые считают каждый цент и не прощают неэффективность.</span>
         </p>
         <div class="hero-actions">
-          <a class="btn-tg" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+          <a class="btn-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
             <span class="tg-ico">✈</span>
             <span data-lang="en" class="active">Write in Telegram</span>
             <span data-lang="ru" class="active">Написать в Telegram</span>
@@ -1086,7 +1136,7 @@ footer { border-top: 1px solid var(--border); padding: 0; }
           </ul>
         </div>
         <div class="svc-foot">
-          <a class="svc-cta" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
             <span class="tg-ico">✈</span>
             <span data-lang="en" class="active">Contact in Telegram</span>
             <span data-lang="ru" class="active">Написать в Telegram</span>
@@ -1116,7 +1166,7 @@ footer { border-top: 1px solid var(--border); padding: 0; }
           </ul>
         </div>
         <div class="svc-foot">
-          <a class="svc-cta" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
             <span class="tg-ico">✈</span>
             <span data-lang="en" class="active">Contact in Telegram</span>
             <span data-lang="ru" class="active">Написать в Telegram</span>
@@ -1146,7 +1196,7 @@ footer { border-top: 1px solid var(--border); padding: 0; }
           </ul>
         </div>
         <div class="svc-foot">
-          <a class="svc-cta" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
             <span class="tg-ico">✈</span>
             <span data-lang="en" class="active">Contact in Telegram</span>
             <span data-lang="ru" class="active">Написать в Telegram</span>
@@ -1224,51 +1274,6 @@ footer { border-top: 1px solid var(--border); padding: 0; }
         <div class="r-num">30<em>+</em></div>
         <div class="r-label"><span data-lang="en" class="active">GEOs delivered</span><span data-lang="ru" class="active">GEO охвачено</span></div>
         <div class="r-sub"><span data-lang="en" class="active">With native copy</span><span data-lang="ru" class="active">С нативным копирайтом</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY EMBR -->
-<section class="why">
-  <div class="wrap">
-    <div class="section-label reveal"><span data-lang="en" class="active">Why EMBR Studio</span><span data-lang="ru" class="active">Почему EMBR Studio</span></div>
-    <h2 class="section-h reveal">
-      <span data-lang="en" class="active">WE'RE NOT AN<br><span class="dim">AGENCY. WE'RE</span><br>YOUR TEAM.</span>
-      <span data-lang="ru" class="active">МЫ НЕ АГЕНТСТВО.<br><span class="dim">МЫ ЧАСТЬ</span><br>ВАШЕЙ КОМАНДЫ.</span>
-    </h2>
-    <div class="why-grid" style="margin-top:64px">
-      <div class="why-big reveal">
-        <div class="y2k-corner tl"></div><div class="y2k-corner tr"></div>
-        <div class="y2k-corner bl"></div><div class="y2k-corner br"></div>
-        <div class="why-big-text">
-          <span data-lang="en" class="active">No account managers. No briefs lost in Jira. Just creatives that <span class="hi">ship.</span></span>
-          <span data-lang="ru" class="active">Никаких аккаунт-менеджеров. Никаких тасок, потерянных в трекере. Только <span class="hi">рабочие креативы.</span></span>
-        </div>
-        <a class="btn-tg" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
-          <span class="tg-ico">✈</span>
-          <span data-lang="en" class="active">Write in Telegram</span>
-          <span data-lang="ru" class="active">Написать в Telegram</span>
-        </a>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🎯</div>
-        <div class="why-title"><span data-lang="en" class="active">Performance-first mindset</span><span data-lang="ru" class="active">Перформанс прежде всего</span></div>
-        <div class="why-desc"><span data-lang="en" class="active">We don't make art. We make assets that lower CPA and raise CTR. Every creative decision is tied to a metric.</span><span data-lang="ru" class="active">Мы не делаем искусство. Мы делаем материалы, снижающие CPA и поднимающие CTR. Каждое решение привязано к метрике.</span></div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">⚙️</div>
-        <div class="why-title"><span data-lang="en" class="active">Built for your stack</span><span data-lang="ru" class="active">Совместимость с вашим стеком</span></div>
-        <div class="why-desc"><span data-lang="en" class="active">Keitaro, Binom, Voluum, all major trackers. We integrate into your workflow, not the other way.</span><span data-lang="ru" class="active">Keitaro, Binom, Voluum и другие трекеры. Мы встраиваемся в ваш воркфлоу, а не наоборот.</span></div>      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🌍</div>
-        <div class="why-title"><span data-lang="en" class="active">Multilingual by default</span><span data-lang="ru" class="active">Мультиязычность по умолчанию</span></div>
-        <div class="why-desc"><span data-lang="en" class="active">Native copy in UA, PL, TR, DE, RO and more. No Google Translate. No embarrassing localization errors.</span><span data-lang="ru" class="active">Нативный копирайт: UA, PL, TR, DE, RO и другие. Никакого Google Translate. Никаких ляпов в локализации.</span></div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🔒</div>
-        <div class="why-title"><span data-lang="en" class="active">Vertical expertise</span><span data-lang="ru" class="active">Экспертиза в вертикалях</span></div>
-        <div class="why-desc"><span data-lang="en" class="active">iGaming and e-Commerce. We know which angles survive moderation and which creatives burn accounts.</span><span data-lang="ru" class="active">iGaming и e-Commerce. Знаем, какие углы проходят модерацию, а какие сжигают аккаунты.</span></div>
       </div>
     </div>
   </div>
@@ -1354,7 +1359,7 @@ footer { border-top: 1px solid var(--border); padding: 0; }
         <span data-lang="ru" class="active">Напишите вертикаль, ГЕО и задачу. Ответим в течение нескольких часов с чётким планом.</span>
       </p>
       <div class="cta-actions">
-        <a class="btn-tg" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
+        <a class="btn-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
           <span class="tg-ico">✈</span>
           <span data-lang="en" class="active">Write in Telegram</span>
           <span data-lang="ru" class="active">Написать в Telegram</span>
@@ -1365,8 +1370,8 @@ footer { border-top: 1px solid var(--border); padding: 0; }
         </a>
       </div>
       <p class="cta-note">
-        <span data-lang="en" class="active">@embr_studio_admin · No sales calls. No decks. Just a straight answer.</span>
-        <span data-lang="ru" class="active">@embr_studio_admin · Без созвонов. Без презентаций. Только чёткий ответ.</span>
+        <span data-lang="en" class="active">@embr_chat · No calls. No decks. Just a straight answer.</span>
+        <span data-lang="ru" class="active">@embr_chat · Без созвонов. Без презентаций. Только чёткий ответ.</span>
       </p>
     </div>
   </div>
@@ -1384,10 +1389,12 @@ footer { border-top: 1px solid var(--border); padding: 0; }
       <li><a href="#results"><span data-lang="en" class="active">Results</span><span data-lang="ru" class="active">Результаты</span></a></li>
       <li><a href="#reviews"><span data-lang="en" class="active">Reviews</span><span data-lang="ru" class="active">Отзывы</span></a></li>
     </ul>
-    <a class="foot-tg" href="https://t.me/embr_studio_admin" target="_blank" rel="noopener">
-      ✈ @embr_studio_admin
-    </a>
-    <div class="foot-copy">© 2026 EMBR Studio. All rights reserved.</div>
+    <div class="foot-socials">
+      <a class="foot-soc" href="https://t.me/embr_chat" target="_blank" rel="noopener" title="Telegram"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+      <a class="foot-soc" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a class="foot-soc" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+    </div>
+    <div class="foot-copy">© 2026 EMBR Studio · <a href="https://t.me/embr_chat" style="color:inherit;text-decoration:none;">@embr_chat</a></div>
   </div>
 </footer>
 
@@ -1427,7 +1434,7 @@ function closeMenu() {
 }
 
 // ── INIT LANGUAGE on load ──
-setLang('en');
+setLang('ru');
 
 // ── SMOOTH SCROLL for nav links ──
 document.querySelectorAll('a[href^="#"]').forEach(link => {
