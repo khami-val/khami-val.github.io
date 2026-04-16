@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#07080C; font-family:'Courier New',monospace; color:#E8EDF5; padding:24px; }
+
+  /* ── TOKEN VARS ── */
+  :root {
+    --bg: #07080C;
+    --surface: #0D0F16;
+    --blue: #1B8EF8;
+    --silver: #B8C4D4;
+    --off: #E8EDF5;
+    --muted: #5A6478;
+    --chrome: linear-gradient(90deg,#6b7f96,#d0dae8,#6b7f96);
+  }
+
+  h1 { font-size:20px; font-weight:900; letter-spacing:0.06em; color:#fff; margin-bottom:4px; }
+  h1 em { color:var(--blue); font-style:normal; }
+  .subtitle { font-size:11px; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:28px; }
+
+  .section-title {
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--blue);
+    display:flex; align-items:center; gap:8px; margin-bottom:16px; margin-top:28px;
+  }
+  .section-title::before { content:'//'; opacity:0.5; }
+
+  .chrome-bar { height:2px; background:var(--chrome); margin-bottom:28px; opacity:0.5; }
+
+  /* ── POST GRID ── */
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin-bottom:4px; }
+
+  /* ── INDIVIDUAL TEMPLATES ── */
+  .templates { display:flex; gap:16px; flex-wrap:wrap; }
+  .tpl { display:flex; flex-direction:column; gap:8px; align-items:center; }
+  .tpl-label { font-size:9px; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; }
+
+  /* ── POST BASE ── */
+  .post {
+    aspect-ratio:1/1;
+    position:relative;
+    overflow:hidden;
+    border-radius:4px;
+    background:#0D0F16;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .post.story { aspect-ratio:9/16; width:90px; border-radius:6px; }
+
+  /* grid overlay on post bg */
+  .post-grid-bg {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(27,142,248,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(27,142,248,0.04) 1px,transparent 1px);
+    background-size:20px 20px;
+  }
+  .post-glow {
+    position:absolute; border-radius:50%;
+    background:radial-gradient(circle,rgba(27,142,248,0.18),transparent 70%);
+  }
+  .post-chrome-top {
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,#6b7f96,#d0dae8,#6b7f96);
+    opacity:0.5;
+  }
+  .post-chrome-bot {
+    position:absolute; bottom:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,#6b7f96,#d0dae8,#6b7f96);
+    opacity:0.3;
+  }
+  .post-corners { position:absolute; inset:0; }
+  .corner { position:absolute; width:8px; height:8px; border-color:var(--silver); border-style:solid; opacity:0.4; }
+  .corner.tl { top:4px; left:4px; border-width:1px 0 0 1px; }
+  .corner.tr { top:4px; right:4px; border-width:1px 1px 0 0; }
+  .corner.bl { bottom:4px; left:4px; border-width:0 0 1px 1px; }
+  .corner.br { bottom:4px; right:4px; border-width:0 1px 1px 0; }
+
+  .post-tag {
+    position:absolute; top:6px; left:6px;
+    font-size:5px; font-weight:700; letter-spacing:0.12em;
+    color:var(--blue); background:rgba(27,142,248,0.12);
+    border:0.5px solid rgba(27,142,248,0.4);
+    border-radius:2px; padding:1px 4px;
+    font-family:'Courier New',monospace;
+  }
+  .post-logo {
+    position:absolute; bottom:6px; right:6px;
+    font-size:6px; font-weight:900; color:rgba(255,255,255,0.5);
+    font-family:'Courier New',monospace; letter-spacing:0.04em;
+  }
+  .post-logo em { color:var(--blue); font-style:normal; }
+
+  /* Template specific content */
+  .tpl-headline {
+    position:absolute;
+    font-weight:900; line-height:1; letter-spacing:0.01em;
+    font-family:'Courier New',monospace;
+    text-transform:uppercase;
+  }
+  .tpl-body {
+    position:absolute;
+    font-size:5px; color:var(--muted); line-height:1.5;
+    font-family:'Courier New',monospace; letter-spacing:0.04em;
+  }
+  .tpl-num {
+    position:absolute;
+    font-weight:900; color:var(--blue);
+    font-family:'Courier New',monospace; line-height:1;
+  }
+  .tpl-line {
+    position:absolute; background:rgba(27,142,248,0.5); height:1px;
+  }
+  .tpl-divider {
+    position:absolute; background:rgba(255,255,255,0.07); height:1px;
+  }
+
+  /* ── COLOR SWATCHES ── */
+  .swatches { display:flex; gap:8px; flex-wrap:wrap; }
+  .swatch { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .swatch-box { width:48px; height:48px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); }
+  .swatch-hex { font-size:8px; color:var(--muted); letter-spacing:0.06em; }
+  .swatch-name { font-size:8px; color:var(--off); font-weight:700; letter-spacing:0.04em; }
+
+  /* ── TYPOGRAPHY SCALE ── */
+  .type-row { display:flex; align-items:baseline; gap:12px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:8px; margin-bottom:8px; }
+  .type-label { font-size:8px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; min-width:80px; }
+
+  /* ── CARD ── */
+  .card {
+    background:#0D0F16; border:1px solid rgba(255,255,255,0.07);
+    border-radius:10px; padding:16px; position:relative; overflow:hidden;
+  }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--chrome); opacity:0.3; }
+
+  /* ── SPACING TOKENS ── */
+  .spacing-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .spacing-bar { height:8px; background:var(--blue); border-radius:2px; opacity:0.7; }
+  .spacing-label { font-size:9px; color:var(--muted); }
+
+  /* ── ICON SET ── */
+  .icons-row { display:flex; gap:12px; flex-wrap:wrap; }
+  .icon-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .icon-box {
+    width:32px; height:32px; border-radius:6px;
+    background:rgba(27,142,248,0.1); border:1px solid rgba(27,142,248,0.25);
+    display:flex; align-items:center; justify-content:center; font-size:14px;
+  }
+  .icon-name { font-size:7px; color:var(--muted); letter-spacing:0.08em; }
+
+  /* ── STORY TEMPLATES ── */
+  .story-tpl { width:100px; aspect-ratio:9/16; border-radius:10px; background:#0D0F16; border:1px solid rgba(27,142,248,0.2); position:relative; overflow:hidden; }
+
+  /* ── LAYOUT ── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  @media(max-width:600px) { .two-col,.three-col { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<h1>EMBR<em>.</em>STUDIO</h1>
+<div class="subtitle">// Instagram Design System · 2026</div>
+<div class="chrome-bar"></div>
+
+<!-- ═══ FEED POST TEMPLATES ═══ -->
+<div class="section-title">Feed Post Templates · 1080×1080</div>
+
+<div class="templates">
+
+  <!-- TEMPLATE 1: STAT / PROOF -->
+  <div class="tpl">
+    <div class="tpl-label">Stat / Proof</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-glow" style="width:120px;height:120px;top:-20px;left:-20px"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// CASE STUDY</div>
+      <!-- Content -->
+      <div style="position:absolute;top:22px;left:10px;right:10px">
+        <div style="font-size:7px;color:#5A6478;letter-spacing:0.1em;font-family:monospace">CLIENT · iGAMING GEO: PL</div>
+        <div style="height:1px;background:rgba(27,142,248,0.3);margin:6px 0"></div>
+        <div style="font-size:42px;font-weight:900;color:#1B8EF8;font-family:monospace;line-height:1">3×</div>
+        <div style="font-size:8px;font-weight:700;color:#E8EDF5;font-family:monospace;letter-spacing:0.04em;margin-top:2px">ROAS LIFT</div>
+        <div style="font-size:6px;color:#5A6478;font-family:monospace;margin-top:8px;line-height:1.6">vs. previous creative<br>48h delivery · Meta Feed</div>
+        <!-- Mini chart -->
+        <svg width="140" height="36" viewBox="0 0 140 36" style="margin-top:10px">
+          <polyline points="0,30 20,25 40,20 60,15 80,8 100,5 120,2 140,0" fill="none" stroke="#1B8EF8" stroke-width="1.5" stroke-linecap="round"/>
+          <polyline points="0,30 20,25 40,20 60,15 80,8 100,5 120,2 140,0" fill="none" stroke="#1B8EF8" stroke-width="4" opacity="0.1"/>
+          <circle cx="140" cy="0" r="3" fill="#1B8EF8"/>
+        </svg>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
+        <div style="font-size:6px;color:#5A6478;font-family:monospace">500+ creatives / month</div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE 2: SERVICE CARD -->
+  <div class="tpl">
+    <div class="tpl-label">Service Card</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-glow" style="width:100px;height:100px;bottom:-10px;right:-10px;opacity:0.6"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// SERVICE</div>
+      <div style="position:absolute;top:22px;left:10px;right:10px">
+        <div style="font-size:28px;margin-bottom:6px">📲</div>
+        <div style="font-size:18px;font-weight:900;color:#fff;font-family:monospace;line-height:1;text-transform:uppercase">PWA<br>DEV.</div>
+        <div style="height:1px;background:rgba(27,142,248,0.4);margin:8px 0"></div>
+        <div style="font-size:6px;color:#5A6478;font-family:monospace;line-height:1.7">
+          · Fast-load &lt;2s TTI<br>
+          · Store-bypass install<br>
+          · Postback ready<br>
+          · iGaming vertical
+        </div>
+        <div style="margin-top:10px;background:rgba(27,142,248,0.12);border:0.5px solid rgba(27,142,248,0.35);border-radius:4px;padding:5px 8px;font-size:7px;color:#1B8EF8;font-family:monospace;letter-spacing:0.06em">
+          → t.me/embr_chat
+        </div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE 3: PROCESS / HOW IT WORKS -->
+  <div class="tpl">
+    <div class="tpl-label">Process</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// HOW IT WORKS</div>
+      <div style="position:absolute;top:22px;left:10px;right:10px">
+        <div style="font-size:10px;font-weight:900;color:#fff;font-family:monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">4 STEPS.<br><span style="color:#1B8EF8">NO HEADACHES.</span></div>
+        <!-- Steps -->
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:flex-start;gap:6px">
+            <div style="font-size:8px;font-weight:900;color:#1B8EF8;min-width:14px;font-family:monospace">01</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">Пишешь в Telegram</div>
+          </div>
+          <div style="height:0.5px;background:rgba(255,255,255,0.05)"></div>
+          <div style="display:flex;align-items:flex-start;gap:6px">
+            <div style="font-size:8px;font-weight:900;color:#1B8EF8;min-width:14px;font-family:monospace">02</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">Выбираем углы</div>
+          </div>
+          <div style="height:0.5px;background:rgba(255,255,255,0.05)"></div>
+          <div style="display:flex;align-items:flex-start;gap:6px">
+            <div style="font-size:8px;font-weight:900;color:#1B8EF8;min-width:14px;font-family:monospace">03</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">Делаем за 48ч</div>
+          </div>
+          <div style="height:0.5px;background:rgba(255,255,255,0.05)"></div>
+          <div style="display:flex;align-items:flex-start;gap:6px">
+            <div style="font-size:8px;font-weight:900;color:#1B8EF8;min-width:14px;font-family:monospace">04</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">Итерируем по данным</div>
+          </div>
+        </div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE 4: QUOTE / TESTIMONIAL -->
+  <div class="tpl">
+    <div class="tpl-label">Отзыв</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-glow" style="width:130px;height:130px;top:10px;left:10px;opacity:0.5"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// ОТЗЫВ</div>
+      <div style="position:absolute;top:22px;left:10px;right:10px">
+        <!-- Stars -->
+        <div style="color:#1B8EF8;font-size:8px;letter-spacing:3px;margin-bottom:8px">★★★★★</div>
+        <!-- Big quote -->
+        <div style="font-size:28px;color:#1B8EF8;opacity:0.3;line-height:0.6;font-family:monospace">"</div>
+        <div style="font-size:7px;color:#E8EDF5;font-family:monospace;line-height:1.7;margin-top:4px">
+          CTR вырос на 40%<br>в первый месяц.<br>Покрыли 6 ГЕО<br>силами одной команды.
+        </div>
+        <div style="height:1px;background:rgba(27,142,248,0.2);margin:8px 0"></div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:16px;height:16px;border-radius:3px;background:linear-gradient(135deg,#1B8EF8,#6DBBFF);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#07080C;font-family:monospace">AK</div>
+          <div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;font-weight:700">Alex K.</div>
+            <div style="font-size:5px;color:#5A6478;font-family:monospace">Head of Media Buying</div>
+          </div>
+        </div>
+        <!-- Badge bottom -->
+        <div style="margin-top:8px;font-size:6px;color:#5A6478;font-family:monospace;letter-spacing:0.08em">iGAMING AGENCY · META</div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE 5: DO/DON'T CREATIVE TIPS -->
+  <div class="tpl">
+    <div class="tpl-label">Tip / Hook</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// CREATIVE TIP</div>
+      <div style="position:absolute;top:22px;left:10px;right:10px">
+        <div style="font-size:9px;font-weight:900;color:#fff;font-family:monospace;letter-spacing:0.02em;text-transform:uppercase;line-height:1.2;margin-bottom:8px">ХУК<br><span style="color:#1B8EF8">РЕШАЕТ</span><br>ВСЁ.</div>
+        <div style="height:1px;background:rgba(27,142,248,0.3);margin:6px 0"></div>
+        <!-- Do/Don't mini -->
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="background:rgba(27,142,248,0.08);border-left:2px solid #1B8EF8;padding:4px 6px;border-radius:0 3px 3px 0">
+            <div style="font-size:5px;font-weight:700;color:#1B8EF8;letter-spacing:0.1em;font-family:monospace">DO ✓</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">"CTR вырос на 40%"</div>
+          </div>
+          <div style="background:rgba(255,60,60,0.05);border-left:2px solid #FF3C3C;padding:4px 6px;border-radius:0 3px 3px 0">
+            <div style="font-size:5px;font-weight:700;color:#FF3C3C;letter-spacing:0.1em;font-family:monospace">DON'T ✕</div>
+            <div style="font-size:6px;color:#E8EDF5;font-family:monospace;line-height:1.4">"Результаты улучшились"</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:5px;color:#5A6478;font-family:monospace;line-height:1.5">
+          Конкретные числа ↑ CTR<br>на 25-60% в среднем.
+        </div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE 6: MASCOT POST -->
+  <div class="tpl">
+    <div class="tpl-label">Игнис / Mascot</div>
+    <div class="post" style="width:160px">
+      <div class="post-grid-bg"></div>
+      <div class="post-glow" style="width:140px;height:140px;bottom:-30px;left:10px;opacity:0.7"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-chrome-bot"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div class="post-tag">// IGNIS SAYS</div>
+      <!-- Mascot simplified inline -->
+      <div style="position:absolute;top:24px;left:50%;transform:translateX(-50%);width:70px">
+        <svg width="70" height="84" viewBox="0 0 70 84">
+          <defs>
+            <linearGradient id="mb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1A2030"/><stop offset="100%" stop-color="#0D0F16"/></linearGradient>
+            <linearGradient id="mv" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A2040"/><stop offset="100%" stop-color="#051428"/></linearGradient>
+          </defs>
+          <!-- Body -->
+          <rect x="16" y="44" width="38" height="30" rx="6" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.8"/>
+          <rect x="22" y="50" width="26" height="16" rx="3" fill="url(#mv)" stroke="#1B8EF8" stroke-width="0.6"/>
+          <polyline points="24,62 28,57 32,60 37,54 42,57 46,52" fill="none" stroke="#1B8EF8" stroke-width="0.8" stroke-linecap="round"/>
+          <!-- Arms -->
+          <rect x="4" y="46" width="12" height="6" rx="3" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.6"/>
+          <rect x="54" y="46" width="12" height="6" rx="3" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.6"/>
+          <!-- Legs -->
+          <rect x="22" y="72" width="10" height="10" rx="3" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.6"/>
+          <rect x="38" y="72" width="10" height="10" rx="3" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.6"/>
+          <!-- Head -->
+          <rect x="12" y="14" width="46" height="32" rx="8" fill="url(#mb)" stroke="#6b7f96" stroke-width="1"/>
+          <rect x="12" y="14" width="46" height="2" rx="1" fill="#d0dae8" opacity="0.4"/>
+          <!-- Visor -->
+          <rect x="17" y="20" width="36" height="18" rx="5" fill="url(#mv)" stroke="#1B8EF8" stroke-width="0.8"/>
+          <!-- Eyes star -->
+          <text x="27" y="31" text-anchor="middle" font-size="9" fill="#1B8EF8">★</text>
+          <text x="43" y="31" text-anchor="middle" font-size="9" fill="#1B8EF8">★</text>
+          <!-- Antenna -->
+          <rect x="31" y="4" width="8" height="12" rx="3" fill="url(#mb)" stroke="#6b7f96" stroke-width="0.6"/>
+          <circle cx="35" cy="4" r="3.5" fill="#1B8EF8"/>
+          <circle cx="35" cy="4" r="1.5" fill="#6DBBFF"/>
+        </svg>
+      </div>
+      <!-- Speech bubble -->
+      <div style="position:absolute;bottom:18px;left:8px;right:8px;background:rgba(27,142,248,0.08);border:0.5px solid rgba(27,142,248,0.3);border-radius:6px;padding:6px 8px">
+        <div style="font-size:7px;color:#E8EDF5;font-family:monospace;line-height:1.5;font-weight:700">"Конвертит не дизайн.<br>Конвертит хук."</div>
+      </div>
+      <div class="post-logo">EMBR<em>.</em>STUDIO</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ STORY TEMPLATES ═══ -->
+<div class="section-title" style="margin-top:32px">Story Templates · 1080×1920</div>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+
+  <!-- Story 1: CTA -->
+  <div class="tpl">
+    <div class="tpl-label">CTA Story</div>
+    <div class="story-tpl">
+      <div class="post-grid-bg"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(27,142,248,0.15),transparent 60%)"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div style="position:absolute;top:10px;left:8px;font-size:5px;color:#1B8EF8;font-family:monospace;letter-spacing:0.12em">// EMBR.STUDIO</div>
+      <!-- Content center -->
+      <div style="position:absolute;top:30%;left:8px;right:8px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#fff;font-family:monospace;line-height:1;text-transform:uppercase">ГОТОВ<br><span style="color:#1B8EF8">ЛИТЬ?</span></div>
+        <div style="height:1px;background:rgba(27,142,248,0.4);margin:8px 0"></div>
+        <div style="font-size:6px;color:#5A6478;font-family:monospace;line-height:1.6">48ч · Любой формат<br>Любое ГЕО</div>
+      </div>
+      <!-- CTA button -->
+      <div style="position:absolute;bottom:20%;left:12px;right:12px;background:#1B8EF8;border-radius:5px;padding:6px;text-align:center">
+        <div style="font-size:6px;font-weight:900;color:#fff;font-family:monospace;letter-spacing:0.06em">✈ НАПИСАТЬ В TELEGRAM</div>
+      </div>
+      <div style="position:absolute;bottom:8px;left:8px;right:8px;text-align:center;font-size:5px;color:#5A6478;font-family:monospace">t.me/embr_chat</div>
+    </div>
+  </div>
+
+  <!-- Story 2: Stat -->
+  <div class="tpl">
+    <div class="tpl-label">Stat Story</div>
+    <div class="story-tpl">
+      <div class="post-grid-bg"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:radial-gradient(ellipse at 50% 100%,rgba(27,142,248,0.1),transparent 70%)"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div style="position:absolute;top:10px;left:8px;font-size:5px;color:#1B8EF8;font-family:monospace;letter-spacing:0.12em">// RESULTS</div>
+      <div style="position:absolute;top:25%;left:8px;right:8px;text-align:center">
+        <div style="font-size:44px;font-weight:900;color:#1B8EF8;font-family:monospace;line-height:1">500+</div>
+        <div style="font-size:7px;font-weight:700;color:#E8EDF5;font-family:monospace;letter-spacing:0.06em;text-transform:uppercase">КРЕАТИВОВ / МЕС</div>
+        <div style="height:1px;background:rgba(27,142,248,0.3);margin:8px auto;width:60%"></div>
+        <div style="display:flex;justify-content:space-around;margin-top:6px">
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:900;color:#fff;font-family:monospace">3×</div>
+            <div style="font-size:5px;color:#5A6478;font-family:monospace">ROAS</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:900;color:#fff;font-family:monospace">48h</div>
+            <div style="font-size:5px;color:#5A6478;font-family:monospace">FIRST DRAFT</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:900;color:#fff;font-family:monospace">30+</div>
+            <div style="font-size:5px;color:#5A6478;font-family:monospace">GEOs</div>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:12px;left:8px;right:8px;font-size:5px;color:#5A6478;font-family:monospace;text-align:center">EMBR.STUDIO · t.me/embr_chat</div>
+    </div>
+  </div>
+
+  <!-- Story 3: Mascot -->
+  <div class="tpl">
+    <div class="tpl-label">Mascot Story</div>
+    <div class="story-tpl">
+      <div class="post-grid-bg"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(27,142,248,0.12),transparent 60%)"></div>
+      <div class="post-chrome-top"></div>
+      <div class="post-corners"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span></div>
+      <div style="position:absolute;top:10px;left:8px;font-size:5px;color:#1B8EF8;font-family:monospace">// IGNIS</div>
+      <!-- Mascot mini centered -->
+      <div style="position:absolute;top:18%;left:50%;transform:translateX(-50%)">
+        <svg width="64" height="76" viewBox="0 0 64 76">
+          <defs><linearGradient id="mb2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1A2030"/><stop offset="100%" stop-color="#0D0F16"/></linearGradient><linearGradient id="mv2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A2040"/><stop offset="100%" stop-color="#051428"/></linearGradient></defs>
+          <rect x="14" y="38" width="36" height="28" rx="6" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.7"/>
+          <rect x="20" y="44" width="24" height="14" rx="3" fill="url(#mv2)" stroke="#1B8EF8" stroke-width="0.5"/>
+          <polyline points="22,55 26,51 30,53 34,48 38,51 42,46" fill="none" stroke="#1B8EF8" stroke-width="0.7" stroke-linecap="round"/>
+          <rect x="2" y="40" width="12" height="5" rx="2.5" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.5"/>
+          <rect x="50" y="40" width="12" height="5" rx="2.5" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.5"/>
+          <rect x="20" y="64" width="10" height="10" rx="3" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.5"/>
+          <rect x="34" y="64" width="10" height="10" rx="3" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.5"/>
+          <rect x="10" y="12" width="44" height="28" rx="8" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.8"/>
+          <rect x="10" y="12" width="44" height="2" rx="1" fill="#d0dae8" opacity="0.4"/>
+          <rect x="15" y="18" width="34" height="16" rx="4" fill="url(#mv2)" stroke="#1B8EF8" stroke-width="0.7"/>
+          <circle cx="25" cy="26" r="5" fill="#0A2040"/>
+          <circle cx="25" cy="26" r="3.5" fill="#1B8EF8"/>
+          <circle cx="25" cy="26" r="1.5" fill="#6DBBFF"/>
+          <circle cx="39" cy="26" r="5" fill="#0A2040"/>
+          <circle cx="39" cy="26" r="3.5" fill="#1B8EF8"/>
+          <circle cx="39" cy="26" r="1.5" fill="#6DBBFF"/>
+          <rect x="28" y="2" width="8" height="12" rx="3" fill="url(#mb2)" stroke="#6b7f96" stroke-width="0.5"/>
+          <circle cx="32" cy="2" r="3.5" fill="#1B8EF8"/>
+          <circle cx="32" cy="2" r="1.5" fill="#6DBBFF"/>
+        </svg>
+      </div>
+      <div style="position:absolute;top:58%;left:8px;right:8px;text-align:center">
+        <div style="font-size:9px;font-weight:900;color:#fff;font-family:monospace;line-height:1.2;text-transform:uppercase">"<span style="color:#1B8EF8">КОНВЕРТИТ</span><br>НЕ ДИЗАЙН."</div>
+        <div style="font-size:5px;color:#5A6478;font-family:monospace;margin-top:6px">— IGNIS · EMBR STUDIO</div>
+      </div>
+      <div style="position:absolute;bottom:8px;left:8px;right:8px;text-align:center;font-size:5px;color:#5A6478;font-family:monospace">t.me/embr_chat</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ COLOR SYSTEM ═══ -->
+<div class="section-title">Color Tokens</div>
+<div class="swatches">
+  <div class="swatch"><div class="swatch-box" style="background:#1B8EF8"></div><div class="swatch-name">Electric Blue</div><div class="swatch-hex">#1B8EF8</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#6DBBFF"></div><div class="swatch-name">Sky Blue</div><div class="swatch-hex">#6DBBFF</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#07080C;border:1px solid rgba(255,255,255,0.1)"></div><div class="swatch-name">Space Black</div><div class="swatch-hex">#07080C</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#0D0F16"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#0D0F16</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#B8C4D4"></div><div class="swatch-name">Chrome Silver</div><div class="swatch-hex">#B8C4D4</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#E8EDF5"></div><div class="swatch-name">Off-White</div><div class="swatch-hex">#E8EDF5</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#5A6478"></div><div class="swatch-name">Muted</div><div class="swatch-hex">#5A6478</div></div>
+  <div class="swatch"><div class="swatch-box" style="background:#FF3C3C"></div><div class="swatch-name">Error Red</div><div class="swatch-hex">#FF3C3C</div></div>
+</div>
+
+<!-- ═══ ICON SET ═══ -->
+<div class="section-title">Brand Icons & Symbols</div>
+<div class="icons-row">
+  <div class="icon-item"><div class="icon-box">✦</div><div class="icon-name">Diamond</div></div>
+  <div class="icon-item"><div class="icon-box" style="font-family:monospace;font-size:11px">//</div><div class="icon-name">Slash</div></div>
+  <div class="icon-item"><div class="icon-box">→</div><div class="icon-name">Arrow</div></div>
+  <div class="icon-item"><div class="icon-box">⚡</div><div class="icon-name">Energy</div></div>
+  <div class="icon-item"><div class="icon-box">✈</div><div class="icon-name">Telegram</div></div>
+  <div class="icon-item"><div class="icon-box">★</div><div class="icon-name">Star</div></div>
+  <div class="icon-item"><div class="icon-box" style="font-family:monospace;font-size:11px">▮</div><div class="icon-name">Cursor</div></div>
+  <div class="icon-item"><div class="icon-box">🎯</div><div class="icon-name">Target</div></div>
+  <div class="icon-item"><div class="icon-box" style="font-size:10px">◤◣</div><div class="icon-name">Y2K Corner</div></div>
+</div>
+
+<!-- ═══ TYPOGRAPHY ═══ -->
+<div class="section-title">Type Scale</div>
+<div class="card">
+  <div class="type-row">
+    <div class="type-label">Hero · 48px</div>
+    <div style="font-size:20px;font-weight:900;color:#fff;font-family:monospace;letter-spacing:0.01em">EMBR.STUDIO</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">H1 · 28px</div>
+    <div style="font-size:14px;font-weight:900;color:#fff;font-family:monospace;text-transform:uppercase">CREATIVES THAT CONVERT</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">H2 · 18px</div>
+    <div style="font-size:11px;font-weight:700;color:#E8EDF5;font-family:monospace;text-transform:uppercase">Meta Ads · PWA · iGaming</div>
+  </div>
+  <div class="type-row">
+    <div class="type-label">Body · 14px</div>
+    <div style="font-size:10px;color:#5A6478;font-family:monospace">48h turnaround. First batch ready to launch.</div>
+  </div>
+  <div class="type-row" style="border:none;margin:0;padding:0">
+    <div class="type-label">Mono · 11px</div>
+    <div style="font-size:9px;color:#1B8EF8;font-family:monospace;letter-spacing:0.14em">// 01 · PRIMARY · #1B8EF8</div>
+  </div>
+</div>
+
+<!-- ═══ SPACING TOKENS ═══ -->
+<div class="section-title">Spacing System · 8pt base</div>
+<div class="card">
+  <div class="spacing-row"><div class="spacing-bar" style="width:4px"></div><div class="spacing-label">XS · 4px — Micro gaps, icon padding</div></div>
+  <div class="spacing-row"><div class="spacing-bar" style="width:8px"></div><div class="spacing-label">S · 8px — Internal component padding</div></div>
+  <div class="spacing-row"><div class="spacing-bar" style="width:16px"></div><div class="spacing-label">M · 16px — Related elements gap</div></div>
+  <div class="spacing-row"><div class="spacing-bar" style="width:24px"></div><div class="spacing-label">L · 24px — Section padding</div></div>
+  <div class="spacing-row"><div class="spacing-bar" style="width:40px"></div><div class="spacing-label">XL · 40px — Between sections</div></div>
+  <div class="spacing-row"><div class="spacing-bar" style="width:80px"></div><div class="spacing-label">XXL · 80px — Major breaks</div></div>
+</div>
+
+<!-- ═══ CAPTION TEMPLATES ═══ -->
+<div class="section-title">Caption Templates</div>
+<div class="two-col">
+  <div class="card" style="font-size:10px;line-height:1.8;color:#5A6478;font-family:monospace">
+    <div style="color:#1B8EF8;font-size:9px;margin-bottom:8px">// POST: CASE STUDY</div>
+    <span style="color:#E8EDF5">CTR +40%. За 30 дней. Реально.</span><br><br>
+    Это не дизайн. Это хук, формат и верный угол.<br>
+    Мы делаем креативы, которые побеждают в аукционе — не на конкурсе.<br><br>
+    → 48ч на первый батч<br>
+    → Любой ГЕО, любой вертикал<br>
+    → t.me/embr_chat<br><br>
+    <span style="opacity:0.5">#medialbuying #creativestrategy #igaming #meta #embrstudio</span>
+  </div>
+  <div class="card" style="font-size:10px;line-height:1.8;color:#5A6478;font-family:monospace">
+    <div style="color:#1B8EF8;font-size:9px;margin-bottom:8px">// POST: SERVICE</div>
+    <span style="color:#E8EDF5">PWA за 48ч. Без апстора.</span><br><br>
+    Устанавливается прямо из браузера.<br>
+    Постбек из коробки. TTI меньше 2 секунд.<br>
+    Работает в iGaming с первого дня.<br><br>
+    Пиши → @embr_chat<br><br>
+    <span style="opacity:0.5">#pwa #webdevelopment #igaming #affiliatemarketing #embrstudio</span>
+  </div>
+</div>
+
+<!-- ═══ DO / DON'TS ═══ -->
+<div class="section-title">Visual Do & Don't</div>
+<div class="two-col">
+  <div style="border:1px solid rgba(27,142,248,0.2);border-radius:8px;padding:14px;border-top:2px solid #1B8EF8">
+    <div style="font-size:9px;font-weight:700;color:#1B8EF8;letter-spacing:0.1em;margin-bottom:10px;font-family:monospace">DO ✓</div>
+    <div style="font-size:10px;color:#5A6478;font-family:monospace;line-height:1.8">
+      ✓ Тёмный фон (#07080C)<br>
+      ✓ Electric Blue акценты<br>
+      ✓ Chrome-полосы (Y2K)<br>
+      ✓ Mono шрифт для цифр<br>
+      ✓ Конкретные числа<br>
+      ✓ Corner brackets<br>
+      ✓ Игнис в Story
+    </div>
+  </div>
+  <div style="border:1px solid rgba(255,60,60,0.2);border-radius:8px;padding:14px;border-top:2px solid #FF3C3C">
+    <div style="font-size:9px;font-weight:700;color:#FF3C3C;letter-spacing:0.1em;margin-bottom:10px;font-family:monospace">DON'T ✕</div>
+    <div style="font-size:10px;color:#5A6478;font-family:monospace;line-height:1.8">
+      ✕ Белый или светлый фон<br>
+      ✕ Фиолетовый / розовый<br>
+      ✕ Градиент как фон<br>
+      ✕ Расплывчатые тексты<br>
+      ✕ Стоковые иконки<br>
+      ✕ Другой шрифт<br>
+      ✕ Логотип без отступа
+    </div>
+  </div>
+</div>
+
+<div style="height:20px"></div>
+
+</body>
+</html>
