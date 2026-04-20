@@ -1,17 +1,1464 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Site Title</title>
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <!-- Other head elements -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBR STUDIO — Креативы для медиабайеров</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #07080C;
+  --surface:   #0D0F16;
+  --border:    rgba(255,255,255,0.08);
+  --white:     #FFFFFF;
+  --off:       #E8EDF5;
+  --muted:     #5A6478;
+  --blue:      #1B8EF8;
+  --blue-dim:  rgba(27,142,248,0.1);
+  --blue-border: rgba(27,142,248,0.28);
+  --blue-glow: rgba(27,142,248,0.22);
+  --silver:    #B8C4D4;
+  --silver-hi: #D6E0EE;
+  --chrome:    linear-gradient(135deg, #8fa3bc 0%, #d6e0ee 40%, #8fa3bc 60%, #c0cedf 100%);
+  --chrome2:   linear-gradient(90deg, #6b7f96 0%, #d0dae8 50%, #6b7f96 100%);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--bg);
+  color: var(--off);
+  overflow-x: hidden;
+}
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+
+/* ── Y2K SILVER DECORATIVE ELEMENTS ── */
+.y2k-bar {
+  height: 3px;
+  background: var(--chrome2);
+  width: 100%;
+}
+.y2k-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #1a2236 0%, #0d1525 100%);
+  border: 1px solid var(--silver);
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--silver-hi);
+  box-shadow: 0 0 8px rgba(184,196,212,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.y2k-badge::before { content: '◆'; font-size: 7px; color: var(--blue); }
+
+.y2k-corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--silver);
+  border-style: solid;
+  opacity: 0.4;
+}
+.y2k-corner.tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.y2k-corner.tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.y2k-corner.bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+.y2k-corner.br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,8,12,0.92);
+  backdrop-filter: blur(18px);
+}
+.nav-chrome { height: 2px; background: var(--chrome2); }
+.nav-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 32px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 24px;
+  letter-spacing: 0.06em; text-decoration: none;
+  color: var(--white); flex-shrink: 0;
+  text-shadow: 0 0 20px rgba(27,142,248,0.3);
+}
+.logo em { font-style: normal; color: var(--blue); }
+
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--muted); text-decoration: none; text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--blue);
+  transform: scaleX(0); transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--silver-hi); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+.lang-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+  padding: 6px 10px;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--muted); transition: all 0.18s;
+}
+.lang-btn.active {
+  background: var(--blue); color: #fff;
+  box-shadow: 0 0 12px rgba(27,142,248,0.4);
+}
+.lang-btn:not(.active):hover { color: var(--silver-hi); background: rgba(255,255,255,0.05); }
+
+.nav-tg {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 9px 20px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 0 20px rgba(27,142,248,0.25);
+}
+.nav-tg:hover { background: #2e9fff; transform: translateY(-1px); box-shadow: 0 0 32px rgba(27,142,248,0.45); }
+.tg-icon { font-size: 14px; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 110px 32px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(27,142,248,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,142,248,0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 90% at 50% 50%, black 0%, transparent 100%);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 900px; height: 700px;
+  background: radial-gradient(ellipse, rgba(27,142,248,0.09) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%, -55%);
+  pointer-events: none;
+}
+
+/* Y2K floating orbs */
+.hero-orb {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; z-index: 0;
+}
+.hero-orb-1 {
+  width: 180px; height: 180px;
+  background: radial-gradient(circle at 35% 35%, rgba(184,196,212,0.12), rgba(27,142,248,0.06) 60%, transparent 100%);
+  border: 1px solid rgba(184,196,212,0.12);
+  top: 15%; right: 8%;
+  animation: float1 7s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width: 80px; height: 80px;
+  background: radial-gradient(circle at 35% 35%, rgba(184,196,212,0.15), transparent 70%);
+  border: 1px solid rgba(184,196,212,0.18);
+  bottom: 22%; right: 18%;
+  animation: float2 5s ease-in-out infinite;
+}
+.hero-orb-3 {
+  width: 50px; height: 50px;
+  background: radial-gradient(circle, rgba(27,142,248,0.2), transparent 70%);
+  border: 1px solid rgba(27,142,248,0.2);
+  top: 30%; left: 5%;
+  animation: float1 9s ease-in-out infinite reverse;
+}
+@keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(8deg)} }
+
+.hero-inner { max-width: 1160px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  border-radius: 3px; padding: 6px 14px;
+  margin-bottom: 36px;
+  animation: fadeUp 0.7s 0.1s both;
+  box-shadow: 0 0 16px rgba(27,142,248,0.12);
+}
+.blink { animation: blink 1.2s step-end infinite; }
+@keyframes blink { 50%{opacity:0} }
+
+.hero-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(68px, 10vw, 152px);
+  line-height: 0.88; letter-spacing: -0.01em; text-transform: uppercase;
+  color: var(--white);
+  animation: fadeUp 0.8s 0.2s both;
+}
+.hero-h1 .stroke {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(184,196,212,0.2);
+}
+.hero-h1 .hi {
+  color: transparent;
+  background: linear-gradient(90deg, #1B8EF8 0%, #6DBBFF 50%, #1B8EF8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { to { background-position: 200% center; } }
+
+.hero-row {
+  margin-top: 40px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.35s both;
+}
+.hero-desc {
+  max-width: 480px;
+  font-size: 17px; font-weight: 500; line-height: 1.7; color: var(--muted);
+}
+.hero-desc strong { color: var(--off); font-weight: 700; }
+
+.hero-actions { display: flex; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+
+.btn-blue {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800; font-size: 15px; letter-spacing: 0.03em;
+  padding: 16px 36px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 0 40px rgba(27,142,248,0.25);
+  position: relative; overflow: hidden;
+}
+.btn-blue::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.4s;
+}
+.btn-blue:hover::before { left: 150%; }
+.btn-blue:hover { background: #2e9fff; transform: translateY(-2px); box-shadow: 0 0 60px rgba(27,142,248,0.45); }
+
+.btn-silver {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700; font-size: 15px; letter-spacing: 0.03em;
+  padding: 15px 32px;
+  background: transparent;
+  border: 1px solid var(--silver);
+  color: var(--silver-hi); border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.btn-silver:hover { border-color: var(--silver-hi); background: rgba(184,196,212,0.07); color: #fff; }
+
+/* hero stats */
+.hero-stats {
+  margin-top: 72px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+  animation: fadeUp 0.8s 0.5s both;
+  background: rgba(13,15,22,0.8);
+  box-shadow: inset 0 1px 0 rgba(184,196,212,0.06);
+  position: relative;
+}
+.hero-stats::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--chrome2); opacity: 0.4;
+}
+.hstat {
+  padding: 24px 28px;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+.hstat:last-child { border-right: none; }
+.hstat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 44px; letter-spacing: 0.02em;
+  color: var(--white); line-height: 1;
+}
+.hstat-num span { color: var(--blue); }
+.hstat-label { font-size: 11px; font-weight: 700; color: var(--muted); margin-top: 5px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── TICKER ── */
+.ticker {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0; overflow: hidden;
+}
+.ticker-chrome { height: 2px; background: var(--chrome2); opacity: 0.5; }
+.ticker-inner { padding: 13px 0; }
+.ticker-track {
+  display: flex; white-space: nowrap;
+  animation: scroll 30s linear infinite;
+}
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 18px;
+  padding: 0 24px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); flex-shrink: 0;
+}
+.ticker-dot { color: var(--blue); font-size: 7px; }
+@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTION COMMONS ── */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before { content: '//'; opacity: 0.45; }
+
+.section-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: clamp(38px, 5vw, 68px);
+  text-transform: uppercase; line-height: 0.95; letter-spacing: 0.01em;
+  color: var(--white);
+}
+.section-h .dim {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(184,196,212,0.2);
+}
+
+/* ── WHO ── */
+.who { padding: 100px 0; }
+.who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }
+.who-card {
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 40px 36px;
+  background: var(--surface);
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s;
+}
+.who-card:hover { border-color: rgba(27,142,248,0.35); }
+.who-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--blue), #6dbbff);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+}
+.who-card:hover::before { transform: scaleX(1); }
+
+/* Y2K corner accents on cards */
+.who-card .y2k-corner { opacity: 0.2; }
+
+.who-chip {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  border-radius: 2px; padding: 4px 10px; margin-bottom: 20px;
+}
+.who-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 34px; text-transform: uppercase;
+  color: var(--white); letter-spacing: 0.02em; margin-bottom: 14px;
+}
+.who-desc { font-size: 14px; font-weight: 500; line-height: 1.75; color: var(--muted); margin-bottom: 28px; }
+.who-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.who-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; font-weight: 600; color: var(--off); line-height: 1.5;
+}
+.who-list li::before { content: '→'; color: var(--blue); flex-shrink: 0; }
+
+/* ── SERVICES ── */
+.services { padding: 100px 0; background: var(--surface); position: relative; }
+.services::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--chrome2); opacity: 0.3; }
+.services::after  { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--chrome2); opacity: 0.3; }
+
+.services-intro {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 40px; margin-bottom: 60px; flex-wrap: wrap;
+}
+.services-note { max-width: 360px; font-size: 15px; font-weight: 500; line-height: 1.7; color: var(--muted); }
+
+.svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+
+.svc-col {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s;
+}
+.svc-col:hover { border-color: rgba(27,142,248,0.3); }
+.svc-col.featured { border-color: rgba(27,142,248,0.22); background: rgba(27,142,248,0.025); }
+
+/* Y2K scan-line shimmer on hover */
+.svc-col::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(27,142,248,0.012) 2px, rgba(27,142,248,0.012) 4px);
+  pointer-events: none; opacity: 0; transition: opacity 0.3s;
+}
+.svc-col:hover::after { opacity: 1; }
+
+.svc-head { padding: 36px 32px 28px; border-bottom: 1px solid var(--border); }
+.svc-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--blue); letter-spacing: 0.12em; margin-bottom: 20px; }
+.svc-icon { font-size: 30px; margin-bottom: 16px; display: block; }
+.svc-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 30px; text-transform: uppercase;
+  color: var(--white); letter-spacing: 0.02em; line-height: 1;
+}
+.svc-tagline { font-size: 12px; font-weight: 700; color: var(--silver); margin-top: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.svc-body { padding: 28px 32px; flex: 1; }
+.svc-desc { font-size: 14px; font-weight: 500; line-height: 1.75; color: var(--muted); margin-bottom: 24px; }
+.svc-items { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.svc-items li {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 600; color: var(--off);
+  padding: 9px 12px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.svc-items li .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); flex-shrink: 0; box-shadow: 0 0 6px rgba(27,142,248,0.6); }
+
+.svc-foot { padding: 24px 32px; border-top: 1px solid var(--border); }
+.svc-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 13px;
+  background: transparent;
+  border: 1px solid var(--blue-border);
+  color: var(--blue); border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: all 0.25s;
+}
+.svc-cta:hover { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 0 24px rgba(27,142,248,0.35); }
+
+/* ── PROCESS ── */
+.process { padding: 100px 0; }
+.process-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0; margin-top: 64px;
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--chrome2); opacity: 0.35;
+}
+.proc-step {
+  padding: 36px 26px; border-right: 1px solid var(--border); position: relative;
+  background: var(--surface);
+}
+.proc-step:last-child { border-right: none; }
+.proc-step:hover { background: rgba(27,142,248,0.03); }
+.proc-num {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 60px;
+  color: transparent; -webkit-text-stroke: 1px rgba(27,142,248,0.15);
+  line-height: 1; margin-bottom: 14px;
+}
+.proc-name {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px;
+  text-transform: uppercase; color: var(--white); letter-spacing: 0.05em; margin-bottom: 10px;
+}
+.proc-desc { font-size: 13px; font-weight: 500; line-height: 1.65; color: var(--muted); }
+
+/* ── RESULTS ── */
+.results { padding: 100px 0; background: var(--surface); }
+.results-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-top: 64px;
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.r-item { padding: 40px 32px; border-right: 1px solid var(--border); text-align: center; position: relative; }
+.r-item:last-child { border-right: none; }
+.r-item::before { content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.4; }
+.r-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 58px; letter-spacing: -0.01em;
+  color: var(--white); line-height: 1;
+}
+.r-num em { font-style: normal; color: var(--blue); }
+.r-label { font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
+.r-sub { font-size: 11px; color: rgba(90,100,120,0.6); margin-top: 4px; }
+
+/* ── WHY ── */
+.why { padding: 100px 0; }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 64px; }
+.why-big {
+  grid-column: span 2;
+  border: 1px solid var(--blue-border);
+  border-radius: 8px; padding: 48px 48px;
+  display: flex; align-items: center; justify-content: space-between; gap: 40px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(27,142,248,0.06) 0%, rgba(27,142,248,0.02) 100%);
+  position: relative; overflow: hidden;
+}
+.why-big::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+}
+/* Y2K chrome corners on big card */
+.why-big .y2k-corner { opacity: 0.35; border-color: var(--silver); }
+
+.why-big-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: clamp(30px, 3.5vw, 48px);
+  text-transform: uppercase; color: var(--white); line-height: 1.05; max-width: 560px;
+}
+.why-big-text .hi {
+  background: linear-gradient(90deg, #1B8EF8, #6DBBFF);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.why-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 34px 30px;
+  transition: border-color 0.3s; position: relative; overflow: hidden;
+}
+.why-card:hover { border-color: rgba(27,142,248,0.3); }
+.why-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--chrome2); opacity: 0.2;
+}
+.why-icon { font-size: 26px; margin-bottom: 14px; }
+.why-title {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px;
+  text-transform: uppercase; color: var(--white); letter-spacing: 0.04em; margin-bottom: 10px;
+}
+.why-desc { font-size: 13px; font-weight: 500; line-height: 1.7; color: var(--muted); }
+
+/* ── TESTIMONIALS ── */
+.testi { padding: 100px 0; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 64px; }
+.testi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px 28px; transition: border-color 0.3s; position: relative;
+}
+.testi-card:hover { border-color: rgba(27,142,248,0.25); }
+.tcard-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.tcard-stars { color: var(--blue); font-size: 13px; letter-spacing: 3px; text-shadow: 0 0 8px rgba(27,142,248,0.5); }
+.tcard-type {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--silver); background: rgba(184,196,212,0.06);
+  border: 1px solid rgba(184,196,212,0.15); border-radius: 2px; padding: 4px 8px;
+}
+.tcard-text { font-size: 14px; font-weight: 500; line-height: 1.75; color: var(--off); margin-bottom: 24px; }
+.tcard-author { display: flex; align-items: center; gap: 12px; }
+.tcard-avi {
+  width: 40px; height: 40px; border-radius: 6px;
+  background: linear-gradient(135deg, #0d1a2e, #0a2040);
+  border: 1px solid var(--blue-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 16px; color: var(--blue); flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(27,142,248,0.15);
+}
+.tcard-name { font-size: 14px; font-weight: 700; color: var(--white); }
+.tcard-role { font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+
+/* ── CTA FINAL ── */
+.cta-final { padding: 100px 0; position: relative; overflow: hidden; }
+.cta-final::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(27,142,248,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,142,248,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.cta-box {
+  position: relative; z-index: 1;
+  border: 1px solid rgba(27,142,248,0.25);
+  border-radius: 10px; padding: 72px 64px; text-align: center;
+  background: rgba(27,142,248,0.03);
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue), #6dbbff, var(--blue), transparent);
+}
+/* Big Y2K chrome text in background */
+.cta-bg-text {
+  position: absolute;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+  font-size: 220px; letter-spacing: 0.06em;
+  color: transparent; -webkit-text-stroke: 1px rgba(27,142,248,0.05);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  white-space: nowrap; pointer-events: none; user-select: none;
+  background: var(--chrome2); -webkit-background-clip: text; background-clip: text;
+  opacity: 0.04;
+}
+.cta-box .y2k-corner { opacity: 0.3; border-color: var(--blue); }
+
+.cta-h {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+  font-size: clamp(48px, 7.5vw, 96px); text-transform: uppercase;
+  line-height: 0.9; letter-spacing: 0.01em; color: var(--white);
+  position: relative; z-index: 1;
+  word-break: break-word; hyphens: auto;
+}
+.cta-h .hi {
+  background: linear-gradient(90deg, #1B8EF8, #6DBBFF, #1B8EF8);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+.cta-sub {
+  margin: 24px auto 0; max-width: 500px;
+  font-size: 16px; font-weight: 500; line-height: 1.7; color: var(--muted);
+  position: relative; z-index: 1;
+}
+.cta-actions {
+  margin-top: 40px;
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+.cta-note { margin-top: 16px; font-size: 12px; font-weight: 600; color: var(--muted); position: relative; z-index: 1; }
+
+/* ── TELEGRAM BUTTON ── */
+.btn-tg {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800; font-size: 15px; letter-spacing: 0.03em;
+  padding: 16px 36px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 0 40px rgba(27,142,248,0.25);
+  position: relative; overflow: hidden;
+}
+.btn-tg::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.4s;
+}
+.btn-tg:hover::before { left: 150%; }
+.btn-tg:hover { background: #2e9fff; transform: translateY(-2px); box-shadow: 0 0 60px rgba(27,142,248,0.45); }
+.btn-tg .tg-ico { font-size: 18px; }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 0; }
+.foot-chrome { height: 2px; background: var(--chrome2); opacity: 0.35; }
+.foot-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px; padding: 32px 32px;
+}
+.foot-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; letter-spacing: 0.06em; color: var(--white); }
+.foot-logo em { font-style: normal; color: var(--blue); }
+.foot-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+.foot-links a { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.foot-links a:hover { color: var(--silver-hi); }
+.foot-tg {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--blue); text-decoration: none;
+  border: 1px solid var(--blue-border);
+  border-radius: 4px; padding: 8px 16px;
+  transition: all 0.2s;
+}
+.foot-tg:hover { background: var(--blue-dim); }
+.foot-copy { font-size: 11px; font-weight: 600; color: rgba(90,100,120,0.45); width: 100%; text-align: center; padding-bottom: 24px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ── LANG HIDDEN ── */
+[data-lang] { display: none !important; }
+[data-lang].active { display: revert !important; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .who-grid, .why-grid { grid-template-columns: 1fr; }
+  .why-big { grid-column: auto; }
+  .svc-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .proc-step { border-bottom: 1px solid var(--border); }
+  .proc-step:nth-child(even) { border-right: none; }
+  .proc-step:last-child { border-bottom: none; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .r-item:nth-child(2) { border-right: none; }
+  .r-item:nth-child(3),
+  .r-item:nth-child(4) { border-top: 1px solid var(--border); }
+  .r-item:nth-child(4) { border-right: none; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .hstat:nth-child(2) { border-right: none; }
+  .hstat:nth-child(3) { border-top: 1px solid var(--border); }
+  .hstat:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+}
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px; margin-left: 4px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--silver-hi); border-radius: 2px; transition: all 0.25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed; top: 62px; left: 0; right: 0;
+  background: rgba(7,8,12,0.98); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 199; padding: 16px 24px 28px;
+  flex-direction: column; gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 14px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.mobile-menu a:last-of-type { border-bottom: none; }
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu .mobile-lang {
+  display: flex; gap: 8px; margin-top: 20px;
+}
+.mobile-menu .lang-btn {
+  flex: 1; padding: 10px; text-align: center; border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  /* NAV */
+  .nav-inner { padding: 0 18px; }
+  .lang-toggle { display: none; }
+  .hamburger { display: flex; }
+  .nav-tg { padding: 8px 12px; font-size: 0; gap: 0; }
+  .nav-tg .tg-icon { font-size: 16px; }
+
+  /* GLOBAL */
+  .wrap { padding: 0 18px; }
+
+  /* HERO */
+  .hero { padding: 86px 18px 52px; text-align: center; }
+  .hero-h1 { font-size: clamp(52px, 13vw, 78px); }
+  .hero-eyebrow { font-size: 9px; padding: 5px 11px; margin-bottom: 24px; }
+  .hero-row { flex-direction: column; align-items: center; gap: 24px; }
+  .hero-desc { text-align: center; font-size: 15px; max-width: 100%; }
+  .hero-actions { justify-content: center; flex-direction: column; width: 100%; }
+  .btn-tg, .btn-silver { width: 100%; justify-content: center; font-size: 14px; padding: 15px 20px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; margin-top: 40px; }
+  .hstat { padding: 16px 14px; }
+  .hstat-num { font-size: 32px; }
+  .hstat-label { font-size: 9px; }
+  .hero-orb-1 { width: 100px; height: 100px; right: -10px; opacity: 0.5; }
+  .hero-orb-2, .hero-orb-3 { display: none; }
+
+  /* TICKER */
+  .ticker-item { font-size: 11px; padding: 0 14px; gap: 10px; }
+
+  /* SECTIONS SPACING */
+  .who, .services, .process, .results, .why, .testi, .cta-final { padding: 60px 0; }
+  .section-h { font-size: clamp(30px, 8.5vw, 46px); }
+  .section-label { font-size: 9px; letter-spacing: 0.14em; }
+
+  /* WHO */
+  .who-grid { gap: 10px; margin-top: 36px; }
+  .who-card { padding: 24px 20px; }
+  .who-chip { font-size: 9px; padding: 3px 8px; }
+  .who-title { font-size: 24px; }
+  .who-desc { font-size: 13px; margin-bottom: 20px; }
+  .who-list li { font-size: 12px; }
+  .y2k-corner { display: none; }
+
+  /* SERVICES */
+  .services-intro { flex-direction: column; gap: 16px; margin-bottom: 32px; }
+  .services-note { font-size: 13px; }
+  .svc-grid { gap: 10px; }
+  .svc-head { padding: 22px 20px 18px; }
+  .svc-icon { font-size: 26px; margin-bottom: 12px; }
+  .svc-name { font-size: 22px; }
+  .svc-tagline { font-size: 11px; }
+  .svc-body { padding: 18px 20px; }
+  .svc-desc { font-size: 13px; margin-bottom: 18px; }
+  .svc-items li { font-size: 12px; padding: 8px 10px; }
+  .svc-foot { padding: 16px 20px; }
+  .svc-cta { font-size: 12px; padding: 12px; }
+
+  /* PROCESS */
+  .process-grid { grid-template-columns: 1fr; border-radius: 8px; margin-top: 36px; }
+  .proc-step { padding: 22px 20px; border-right: none !important; }
+  .proc-num { font-size: 40px; margin-bottom: 10px; }
+  .proc-name { font-size: 15px; margin-bottom: 6px; }
+  .proc-desc { font-size: 12px; }
+
+  /* RESULTS */
+  .results-grid { border-radius: 8px; margin-top: 36px; }
+  .r-item { padding: 24px 16px; }
+  .r-num { font-size: 40px; }
+  .r-label { font-size: 10px; }
+  .r-sub { font-size: 10px; }
+
+  /* WHY */
+  .why-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 36px; }
+  .why-big { grid-column: auto; padding: 28px 20px; flex-direction: column; gap: 20px; }
+  .why-big-text { font-size: clamp(22px, 6.5vw, 34px); }
+  .why-big .btn-tg { width: 100%; justify-content: center; }
+  .why-card { padding: 24px 20px; }
+  .why-icon { font-size: 22px; margin-bottom: 10px; }
+  .why-title { font-size: 16px; }
+  .why-desc { font-size: 13px; }
+
+  /* TESTIMONIALS */
+  .testi-grid { gap: 10px; margin-top: 36px; }
+  .testi-card { padding: 22px 18px; }
+  .tcard-text { font-size: 13px; margin-bottom: 18px; }
+  .tcard-name { font-size: 13px; }
+  .tcard-role { font-size: 11px; }
+
+  /* CTA */
+  .cta-box { padding: 40px 20px; border-radius: 10px; }
+  .cta-h { font-size: clamp(36px, 10.5vw, 58px); }
+  .cta-sub { font-size: 14px; margin-top: 16px; }
+  .cta-actions { flex-direction: column; gap: 10px; margin-top: 28px; }
+  .cta-actions .btn-tg,
+  .cta-actions .btn-silver { width: 100%; justify-content: center; }
+  .cta-bg-text { font-size: 80px; }
+  .cta-note { font-size: 11px; margin-top: 12px; }
+
+  /* FOOTER */
+  .foot-inner { flex-direction: column; align-items: flex-start; gap: 18px; padding: 24px 18px; }
+  .foot-links { gap: 14px; flex-wrap: wrap; }
+  .foot-copy { text-align: left; padding-bottom: 0; }
+}
+
+/* ── SOCIAL ICONS ── */
+.social-icons {
+  display: flex; align-items: center; gap: 8px;
+}
+.soc-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s;
+  background: transparent;
+  flex-shrink: 0;
+}
+.soc-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+.soc-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.foot-socials {
+  display: flex; align-items: center; gap: 10px;
+}
+.foot-soc {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 17px;
+  transition: all 0.2s;
+}
+.foot-soc:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+.foot-soc svg { width: 17px; height: 17px; fill: currentColor; }
+
+@media (max-width: 600px) {
+  .social-icons { gap: 6px; }
+  .soc-btn { width: 30px; height: 30px; font-size: 14px; }
+}
+</style>
 </head>
 <body>
-    <!-- Body content -->
+
+<!-- NAV -->
+<nav>
+  <div class="nav-chrome"></div>
+  <div class="nav-inner">
+    <a class="logo" href="#">EMBR<em>.</em>STUDIO</a>
+    <ul class="nav-links">
+      <li><a href="#who"    data-lang="en" class="active"><span>Who We Serve</span></a><a href="#who"    data-lang="ru" class="active"><span>Клиенты</span></a></li>
+      <li><a href="#services" data-lang="en" class="active">Services</a><a href="#services" data-lang="ru" class="active">Услуги</a></li>
+      <li><a href="#process"  data-lang="en" class="active">Process</a><a href="#process"  data-lang="ru" class="active">Процесс</a></li>
+      <li><a href="#results"  data-lang="en" class="active">Results</a><a href="#results"  data-lang="ru" class="active">Результаты</a></li>
+      <li><a href="#reviews"  data-lang="en" class="active">Reviews</a><a href="#reviews"  data-lang="ru" class="active">Отзывы</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      </div>
+      <div class="social-icons">
+        <a class="soc-btn" href="https://t.me/embr_chat" target="_blank" rel="noopener" title="Telegram чат"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+        <a class="soc-btn" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        <a class="soc-btn" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+      </div>
+      <a class="nav-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+        <span class="tg-icon">✈</span>
+        <span data-lang="en" class="active">Telegram</span>
+        <span data-lang="ru" class="active">Telegram</span>
+      </a>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#who"      onclick="closeMenu()"><span data-lang="en" class="active">Who We Serve</span><span data-lang="ru" class="active">Клиенты</span></a>
+  <a href="#services" onclick="closeMenu()"><span data-lang="en" class="active">Services</span><span data-lang="ru" class="active">Услуги</span></a>
+  <a href="#process"  onclick="closeMenu()"><span data-lang="en" class="active">Process</span><span data-lang="ru" class="active">Процесс</span></a>
+  <a href="#results"  onclick="closeMenu()"><span data-lang="en" class="active">Results</span><span data-lang="ru" class="active">Результаты</span></a>
+  <a href="#reviews"  onclick="closeMenu()"><span data-lang="en" class="active">Reviews</span><span data-lang="ru" class="active">Отзывы</span></a>
+  <div class="foot-socials" style="margin-top:16px;gap:10px">
+    <a class="foot-soc" href="https://t.me/embr_chat" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+    <a class="foot-soc" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <a class="foot-soc" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+  </div>
+  <div class="mobile-lang">
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <div class="hero-eyebrow">
+        <span class="blink">▮</span>
+        <span data-lang="en" class="active">Creative production for media buyers</span>
+        <span data-lang="ru" class="active">Креативное производство для медиабайеров</span>
+      </div>
+      <h1 class="hero-h1">
+        <span data-lang="en" class="active">CREATIVES<br>THAT <span class="hi">CONVERT.</span><br><span class="stroke">NOTHING ELSE.</span></span>
+        <span data-lang="ru" class="active">КРЕАТИВЫ<br>КОТОРЫЕ <span class="hi">КОНВЕРТЯТ.</span><br><span class="stroke">И ТОЧКА.</span></span>
+      </h1>
+      <div class="hero-row">
+        <p class="hero-desc">
+          <span data-lang="en" class="active">We produce <strong>Meta ad creatives, PWAs, and full-circle gambling content</strong> — built for performance teams who measure everything and tolerate nothing that doesn't scale.</span>
+          <span data-lang="ru" class="active">Производим <strong>рекламные креативы для Meta, PWA и полный цикл гемблинг-контента</strong> — для команд, которые считают каждый цент и не прощают неэффективность.</span>
+        </p>
+        <div class="hero-actions">
+          <a class="btn-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+            <span class="tg-ico">✈</span>
+            <span data-lang="en" class="active">Write in Telegram</span>
+            <span data-lang="ru" class="active">Написать в Telegram</span>
+          </a>
+          <a class="btn-silver" href="#services">
+            <span data-lang="en" class="active">See services</span>
+            <span data-lang="ru" class="active">Услуги</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-num">500<span>+</span></div>
+          <div class="hstat-label"><span data-lang="en" class="active">Creatives / mo</span><span data-lang="ru" class="active">Креативов / мес</span></div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-num">3<span>×</span></div>
+          <div class="hstat-label"><span data-lang="en" class="active">Avg ROAS lift</span><span data-lang="ru" class="active">Рост ROAS в среднем</span></div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-num">48<span>h</span></div>
+          <div class="hstat-label"><span data-lang="en" class="active">First delivery</span><span data-lang="ru" class="active">Первая поставка</span></div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-num">30<span>+</span></div>
+          <div class="hstat-label"><span data-lang="en" class="active">GEOs covered</span><span data-lang="ru" class="active">GEO охвачено</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-chrome"></div>
+  <div class="ticker-inner">
+    <div class="ticker-track">
+      <span class="ticker-item">Meta Ads <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">PWA Development <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Gambling Creatives <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">UGC Video <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">A/B Creative Testing <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Multilingual Assets <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Landing Pages <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Static &amp; Motion Ads <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">iGaming Verticals <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Meta Ads <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">PWA Development <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Gambling Creatives <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">UGC Video <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">A/B Creative Testing <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Multilingual Assets <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Landing Pages <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">Static &amp; Motion Ads <span class="ticker-dot">●</span></span>
+      <span class="ticker-item">iGaming Verticals <span class="ticker-dot">●</span></span>
+    </div>
+  </div>
+  <div class="ticker-chrome"></div>
+</div>
+
+<!-- WHO -->
+<section class="who" id="who">
+  <div class="wrap">
+    <div class="section-label reveal">
+      <span data-lang="en" class="active">Who we work with</span>
+      <span data-lang="ru" class="active">С кем мы работаем</span>
+    </div>
+    <h2 class="section-h reveal">
+      <span data-lang="en" class="active">BUILT FOR <span class="dim">BUYERS</span><br>WHO BUY AT SCALE</span>
+      <span data-lang="ru" class="active">ДЛЯ ТЕХ, КТО <span class="dim">ЛЬЁТ</span><br>СЕРЬЁЗНО</span>
+    </h2>
+    <div class="who-grid">
+      <div class="who-card reveal">
+        <div class="y2k-corner tl"></div><div class="y2k-corner tr"></div>
+        <div class="y2k-corner bl"></div><div class="y2k-corner br"></div>
+        <div class="who-chip"><span data-lang="en" class="active">Media Buying Teams</span><span data-lang="ru" class="active">Команды медиабаинга</span></div>
+        <div class="who-title"><span data-lang="en" class="active">In-house &amp; agency teams</span><span data-lang="ru" class="active">Инхаус и агентства</span></div>
+        <p class="who-desc">
+          <span data-lang="en" class="active">You run high-volume campaigns across Meta, TikTok, and native. You need a reliable creative partner that ships fast, speaks your language, and never misses a deadline.</span>
+          <span data-lang="ru" class="active">Вы ведёте высокообъёмные кампании в Meta, TikTok и нативке. Нужен надёжный партнёр по креативам — быстрый, говорящий на вашем языке, без срывов дедлайнов.</span>
+        </p>
+        <ul class="who-list">
+          <li><span data-lang="en" class="active">Dedicated creative pod assigned to your account</span><span data-lang="ru" class="active">Выделенная команда на ваш аккаунт</span></li>
+          <li><span data-lang="en" class="active">Volume pricing for 50+ creatives/month</span><span data-lang="ru" class="active">Объёмные цены от 50 креативов/мес</span></li>
+          <li><span data-lang="en" class="active">Direct Slack/Telegram — no account managers</span><span data-lang="ru" class="active">Прямой Slack/Telegram, без посредников</span></li>
+          <li><span data-lang="en" class="active">Creative strategy consultations included</span><span data-lang="ru" class="active">Стратегические консультации в комплекте</span></li>
+        </ul>
+      </div>
+      <div class="who-card reveal">
+        <div class="y2k-corner tl"></div><div class="y2k-corner tr"></div>
+        <div class="y2k-corner bl"></div><div class="y2k-corner br"></div>
+        <div class="who-chip"><span data-lang="en" class="active">Solo Media Buyers</span><span data-lang="ru" class="active">Соло байеры</span></div>
+        <div class="who-title"><span data-lang="en" class="active">Independent operators</span><span data-lang="ru" class="active">Независимые байеры</span></div>
+        <p class="who-desc">
+          <span data-lang="en" class="active">You're running your own spend, testing offers fast, and need creatives that punch above their weight without breaking your margins or your timeline.</span>
+          <span data-lang="ru" class="active">Вы сами льёте, быстро тестируете офферы и нужны креативы, которые отрабатывают максимум без ущерба для маржи и сроков.</span>
+        </p>
+        <ul class="who-list">
+          <li><span data-lang="en" class="active">Pay-per-creative or flexible monthly bundles</span><span data-lang="ru" class="active">Поштучно или гибкие пакеты на месяц</span></li>
+          <li><span data-lang="en" class="active">48-hour turnaround on standard formats</span><span data-lang="ru" class="active">48 часов на стандартные форматы</span></li>
+          <li><span data-lang="en" class="active">No minimum commitment to start</span><span data-lang="ru" class="active">Нет минимального порога для старта</span></li>
+          <li><span data-lang="en" class="active">Scale up anytime your spend grows</span><span data-lang="ru" class="active">Масштабируйтесь по мере роста бюджета</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="services-intro">
+      <div>
+        <div class="section-label reveal"><span data-lang="en" class="active">What we deliver</span><span data-lang="ru" class="active">Что мы делаем</span></div>
+        <h2 class="section-h reveal">
+          <span data-lang="en" class="active">THREE SERVICES.<br><span class="dim">ONE TEAM.</span></span>
+          <span data-lang="ru" class="active">ТРИ УСЛУГИ.<br><span class="dim">ОДНА КОМАНДА.</span></span>
+        </h2>
+      </div>
+      <p class="services-note reveal">
+        <span data-lang="en" class="active">Every service plugs directly into your workflow — no onboarding hell, no creative reviews that drag for a week.</span>
+        <span data-lang="ru" class="active">Каждая услуга встраивается в ваш воркфлоу без головной боли с онбордингом и бесконечными согласованиями.</span>
+      </p>
+    </div>
+    <div class="svc-grid">
+
+      <div class="svc-col reveal">
+        <div class="svc-head">
+          <div class="svc-num">01 / <span data-lang="en" class="active">Creative Ads</span><span data-lang="ru" class="active">Реклама</span></div>
+          <span class="svc-icon">⚡</span>
+          <div class="svc-name"><span data-lang="en" class="active">Meta &amp; Social Ads</span><span data-lang="ru" class="active">Meta и соцсети</span></div>
+          <div class="svc-tagline">Static · Video · UGC · Carousel</div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-desc">
+            <span data-lang="en" class="active">Performance creatives engineered to win auctions — not awards. Hooks that stop the scroll, offers that close. Every format, placement, and GEO.</span>
+            <span data-lang="ru" class="active">Перформанс-креативы для победы в аукционах, а не на конкурсах. Хуки, которые останавливают скролл. Офферы, которые закрывают. Все форматы, плейсменты и ГЕО.</span>
+          </p>
+          <ul class="svc-items">
+            <li><span class="dot"></span> <span data-lang="en" class="active">Static image ads (single &amp; carousel)</span><span data-lang="ru" class="active">Статика (одиночная и карусель)</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Video ads &amp; reels (15 / 30 / 60s)</span><span data-lang="ru" class="active">Видео и рилс (15 / 30 / 60с)</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">UGC-style creatives</span><span data-lang="ru" class="active">UGC-стиль креативы</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Motion graphics &amp; animations</span><span data-lang="ru" class="active">Моушн графика и анимации</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Copy variants for A/B testing</span><span data-lang="ru" class="active">Варианты копирайта для A/B тестов</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Multilingual: UA, PL, TR, DE and more</span><span data-lang="ru" class="active">Мультиязычность: UA, PL, TR, DE и др.</span></li>
+          </ul>
+        </div>
+        <div class="svc-foot">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+            <span class="tg-ico">✈</span>
+            <span data-lang="en" class="active">Contact in Telegram</span>
+            <span data-lang="ru" class="active">Написать в Telegram</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="svc-col featured reveal">
+        <div class="svc-head">
+          <div class="svc-num">02 / <span data-lang="en" class="active">Web Apps</span><span data-lang="ru" class="active">Веб-приложения</span></div>
+          <span class="svc-icon">📲</span>
+          <div class="svc-name">PWA Development</div>
+          <div class="svc-tagline"><span data-lang="en" class="active">Fast · App-like · Store-bypass</span><span data-lang="ru" class="active">Быстро · Как приложение · Без сторов</span></div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-desc">
+            <span data-lang="en" class="active">Progressive Web Apps that look and feel like native apps — installable from the browser, no App Store approval needed. Built for conversion, speed, and deep-link tracking.</span>
+            <span data-lang="ru" class="active">Прогрессивные веб-приложения с нативным UX — устанавливаются прямо из браузера, без аппрувов в App Store. Оптимизированы под конверсию, скорость и трекинг.</span>
+          </p>
+          <ul class="svc-items">
+            <li><span class="dot"></span> <span data-lang="en" class="active">Custom PWA design &amp; development</span><span data-lang="ru" class="active">Кастомный дизайн и разработка PWA</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Push notification setup</span><span data-lang="ru" class="active">Настройка пуш-уведомлений</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Tracker &amp; postback integration</span><span data-lang="ru" class="active">Интеграция трекера и постбека</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Geo &amp; device targeting logic</span><span data-lang="ru" class="active">Гео и девайс таргетинг логика</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Fast-load optimization (&lt;2s TTI)</span><span data-lang="ru" class="active">Оптимизация загрузки (&lt;2с TTI)</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">iGaming vertical experience</span><span data-lang="ru" class="active">Опыт в iGaming вертикали</span></li>
+          </ul>
+        </div>
+        <div class="svc-foot">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+            <span class="tg-ico">✈</span>
+            <span data-lang="en" class="active">Contact in Telegram</span>
+            <span data-lang="ru" class="active">Написать в Telegram</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="svc-col reveal">
+        <div class="svc-head">
+          <div class="svc-num">03 / <span data-lang="en" class="active">iGaming</span><span data-lang="ru" class="active">iGaming</span></div>
+          <span class="svc-icon">🎰</span>
+          <div class="svc-name"><span data-lang="en" class="active">Gambling Creatives</span><span data-lang="ru" class="active">Гемблинг-Креативы</span></div>
+          <div class="svc-tagline"><span data-lang="en" class="active">Full-circle · Compliant · High-volume</span><span data-lang="ru" class="active">Полный цикл · Высокий объём</span></div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-desc">
+            <span data-lang="en" class="active">End-to-end creative production for iGaming — from ad to landing to PWA. We know what converts in casino, sports betting, and crash games across all major GEOs.</span>
+            <span data-lang="ru" class="active">Производство контента от объявления до лендинга и PWA. Знаем что конвертит в казино, ставках и краш-играх на всех ключевых ГЕО.</span>
+          </p>
+          <ul class="svc-items">
+            <li><span class="dot"></span> <span data-lang="en" class="active">Casino &amp; slots ad creatives</span><span data-lang="ru" class="active">Казино и слоты: рекламные материалы</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Sports betting &amp; crash game content</span><span data-lang="ru" class="active">Ставки и краш-игры</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Cloaking-safe creative concepts</span><span data-lang="ru" class="active">Клокинг-безопасные концепции</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Bonus &amp; promo visual design</span><span data-lang="ru" class="active">Визуал бонусов и акций</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">Full funnel: ad → PWA → retention</span><span data-lang="ru" class="active">Полная воронка: объявление → PWA → ретеншн</span></li>
+            <li><span class="dot"></span> <span data-lang="en" class="active">High-volume batches with fast refresh</span><span data-lang="ru" class="active">Большие батчи с быстрым обновлением</span></li>
+          </ul>
+        </div>
+        <div class="svc-foot">
+          <a class="svc-cta" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+            <span class="tg-ico">✈</span>
+            <span data-lang="en" class="active">Contact in Telegram</span>
+            <span data-lang="ru" class="active">Написать в Telegram</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="section-label reveal"><span data-lang="en" class="active">How it works</span><span data-lang="ru" class="active">Как это работает</span></div>
+    <h2 class="section-h reveal">
+      <span data-lang="en" class="active">FROM ZERO TO LIVE<br><span class="dim">IN 48 HOURS.</span></span>
+      <span data-lang="ru" class="active">ОТ ЗАПРОСА ДО РЕЗУЛЬТАТА<br><span class="dim">ЗА 48 ЧАСОВ.</span></span>
+    </h2>
+    <div class="process-grid">
+      <div class="proc-step reveal">
+        <div class="proc-num">01</div>
+        <div class="proc-name"><span data-lang="en" class="active">Brief</span><span data-lang="ru" class="active">Бриф</span></div>
+        <div class="proc-desc"><span data-lang="en" class="active">You write us in Telegram — offer, GEO, angle, format. Takes 10 minutes. No calls required.</span><span data-lang="ru" class="active">Пишете нам в Telegram — оффер, ГЕО, угол, формат. 10 минут. Созвон не нужен.</span></div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-num">02</div>
+        <div class="proc-name"><span data-lang="en" class="active">Strategy</span><span data-lang="ru" class="active">Стратегия</span></div>
+        <div class="proc-desc"><span data-lang="en" class="active">We select angles, formats, and hooks based on what's working in your vertical right now.</span><span data-lang="ru" class="active">Выбираем углы, форматы и хуки на основе того, что работает в вашей вертикали прямо сейчас.</span></div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-num">03</div>
+        <div class="proc-name"><span data-lang="en" class="active">Produce</span><span data-lang="ru" class="active">Производство</span></div>
+        <div class="proc-desc"><span data-lang="en" class="active">Creative team builds your assets. First batch in 48h. Volume orders within 5 days.</span><span data-lang="ru" class="active">Команда делает материалы. Первый батч за 48ч. Объёмные заказы — до 5 дней.</span></div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-num">04</div>
+        <div class="proc-name"><span data-lang="en" class="active">Review</span><span data-lang="ru" class="active">Правки</span></div>
+        <div class="proc-desc"><span data-lang="en" class="active">Review via shared link. One revision round included. Most clients approve first delivery.</span><span data-lang="ru" class="active">Смотрите по ссылке. Один раунд правок включён. Большинство принимают с первого раза.</span></div>
+      </div>
+      <div class="proc-step reveal">
+        <div class="proc-num">05</div>
+        <div class="proc-name"><span data-lang="en" class="active">Iterate</span><span data-lang="ru" class="active">Итерация</span></div>
+        <div class="proc-desc"><span data-lang="en" class="active">Share performance data. We double down on winning angles and refresh fatigued creatives.</span><span data-lang="ru" class="active">Делитесь данными. Усиливаем рабочие углы, освежаем уставшие креативы.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results" id="results">
+  <div class="wrap">
+    <div class="section-label reveal"><span data-lang="en" class="active">By the numbers</span><span data-lang="ru" class="active">Цифры</span></div>
+    <h2 class="section-h reveal">
+      <span data-lang="en" class="active">RESULTS THAT<br><span class="dim">SPEAK FIRST.</span></span>
+      <span data-lang="ru" class="active">РЕЗУЛЬТАТЫ,<br><span class="dim">КОТОРЫЕ ГОВОРЯТ.</span></span>
+    </h2>
+    <div class="results-grid">
+      <div class="r-item reveal">
+        <div class="r-num">500<em>+</em></div>
+        <div class="r-label"><span data-lang="en" class="active">Creatives / month</span><span data-lang="ru" class="active">Креативов / месяц</span></div>
+        <div class="r-sub"><span data-lang="en" class="active">Across all clients</span><span data-lang="ru" class="active">По всем клиентам</span></div>
+      </div>
+      <div class="r-item reveal">
+        <div class="r-num">3<em>×</em></div>
+        <div class="r-label"><span data-lang="en" class="active">Avg. ROAS lift</span><span data-lang="ru" class="active">Рост ROAS в среднем</span></div>
+        <div class="r-sub"><span data-lang="en" class="active">vs. previous creative</span><span data-lang="ru" class="active">против прежних материалов</span></div>
+      </div>
+      <div class="r-item reveal">
+        <div class="r-num">48<em>h</em></div>
+        <div class="r-label"><span data-lang="en" class="active">First delivery</span><span data-lang="ru" class="active">Первый драфт</span></div>
+        <div class="r-sub"><span data-lang="en" class="active">Standard batch</span><span data-lang="ru" class="active">Стандартный батч</span></div>
+      </div>
+      <div class="r-item reveal">
+        <div class="r-num">30<em>+</em></div>
+        <div class="r-label"><span data-lang="en" class="active">GEOs delivered</span><span data-lang="ru" class="active">GEO охвачено</span></div>
+        <div class="r-sub"><span data-lang="en" class="active">With native copy</span><span data-lang="ru" class="active">С нативным копирайтом</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi" id="reviews">
+  <div class="wrap">
+    <div class="section-label reveal"><span data-lang="en" class="active">What buyers say</span><span data-lang="ru" class="active">Что говорят байеры</span></div>
+    <h2 class="section-h reveal">
+      <span data-lang="en" class="active">FROM PEOPLE<br><span class="dim">RUNNING SPEND.</span></span>
+      <span data-lang="ru" class="active">ОТ ТЕХ,<br><span class="dim">КТО ЛЬЁТ БЮДЖЕТ.</span></span>
+    </h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="tcard-top">
+          <div class="tcard-stars">★★★★★</div>
+          <div class="tcard-type"><span data-lang="en" class="active">Media Buying Team</span><span data-lang="ru" class="active">Команда байеров</span></div>
+        </div>
+        <p class="tcard-text">
+          <span data-lang="en" class="active">"We were burning through 3 creative studios before EMBR. Now one team covers our entire Meta volume across 6 GEOs. CTR up 40% in the first month."</span>
+          <span data-lang="ru" class="active">«До EMBR мы сжигали 3 студии подряд. Теперь одна команда закрывает весь наш Meta-объём на 6 ГЕО. CTR вырос на 40% за первый месяц.»</span>
+        </p>
+        <div class="tcard-author">
+          <div class="tcard-avi">AK</div>
+          <div>
+            <div class="tcard-name">Alex K.</div>
+            <div class="tcard-role"><span data-lang="en" class="active">Head of Media Buying, iGaming agency</span><span data-lang="ru" class="active">Руководитель медиабаинга, iGaming агентство</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="tcard-top">
+          <div class="tcard-stars">★★★★★</div>
+          <div class="tcard-type"><span data-lang="en" class="active">Solo Buyer</span><span data-lang="ru" class="active">Соло байер</span></div>
+        </div>
+        <p class="tcard-text">
+          <span data-lang="en" class="active">"The PWA they built for my casino offer loaded in under 2 seconds and had postback working out of the box with Keitaro. Saved me two weeks of dev time."</span>
+          <span data-lang="ru" class="active">«PWA для моего казино-оффера грузится за 2 секунды, постбек с Keitaro заработал из коробки. Сэкономил две недели разработки.»</span>
+        </p>
+        <div class="tcard-author">
+          <div class="tcard-avi">DS</div>
+          <div>
+            <div class="tcard-name">Dmytro S.</div>
+            <div class="tcard-role"><span data-lang="en" class="active">Solo buyer, gambling vertical</span><span data-lang="ru" class="active">Соло байер, гемблинг</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="tcard-top">
+          <div class="tcard-stars">★★★★★</div>
+          <div class="tcard-type"><span data-lang="en" class="active">Media Buying Team</span><span data-lang="ru" class="active">Команда байеров</span></div>
+        </div>
+        <p class="tcard-text">
+          <span data-lang="en" class="active">"Brief Monday, creatives live Wednesday. That's the speed we needed. They understand the gambling space — no education required, no rookie mistakes."</span>
+          <span data-lang="ru" class="active">«Бриф в понедельник, креативы в воздухе в среду. Именно такая скорость нам и нужна. Понимают гемблинг — не нужно ничего объяснять, ноль ошибок новичка.»</span>
+        </p>
+        <div class="tcard-author">
+          <div class="tcard-avi">MR</div>
+          <div>
+            <div class="tcard-name">Maria R.</div>
+            <div class="tcard-role"><span data-lang="en" class="active">Creative Director, performance agency</span><span data-lang="ru" class="active">Креативный директор, перформанс агентство</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final" id="contact">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="y2k-corner tl"></div><div class="y2k-corner tr"></div>
+      <div class="y2k-corner bl"></div><div class="y2k-corner br"></div>
+      <div class="cta-bg-text">EMBR</div>
+      <h2 class="cta-h">
+        <span data-lang="en" class="active">READY TO<br><span class="hi">SCALE?</span></span>
+        <span data-lang="ru" class="active">ГОТОВЫ<br><span class="hi">МАСШТАБИРОВАТЬСЯ?</span></span>
+      </h2>
+      <p class="cta-sub">
+        <span data-lang="en" class="active">Tell us your vertical, GEO, and what you need. We'll reply within a few hours with a clear plan.</span>
+        <span data-lang="ru" class="active">Напишите вертикаль, ГЕО и задачу. Ответим в течение нескольких часов с чётким планом.</span>
+      </p>
+      <div class="cta-actions">
+        <a class="btn-tg" href="https://t.me/embr_chat" target="_blank" rel="noopener">
+          <span class="tg-ico">✈</span>
+          <span data-lang="en" class="active">Write in Telegram</span>
+          <span data-lang="ru" class="active">Написать в Telegram</span>
+        </a>
+        <a class="btn-silver" href="#services">
+          <span data-lang="en" class="active">Explore services</span>
+          <span data-lang="ru" class="active">Все услуги</span>
+        </a>
+      </div>
+      <p class="cta-note">
+        <span data-lang="en" class="active">@embr_chat · No calls. No decks. Just a straight answer.</span>
+        <span data-lang="ru" class="active">@embr_chat · Без созвонов. Без презентаций. Только чёткий ответ.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-chrome"></div>
+  <div class="foot-inner">
+    <div class="foot-logo">EMBR<em>.</em>STUDIO</div>
+    <ul class="foot-links">
+      <li><a href="#who"><span data-lang="en" class="active">Who we serve</span><span data-lang="ru" class="active">Клиенты</span></a></li>
+      <li><a href="#services"><span data-lang="en" class="active">Services</span><span data-lang="ru" class="active">Услуги</span></a></li>
+      <li><a href="#process"><span data-lang="en" class="active">Process</span><span data-lang="ru" class="active">Процесс</span></a></li>
+      <li><a href="#results"><span data-lang="en" class="active">Results</span><span data-lang="ru" class="active">Результаты</span></a></li>
+      <li><a href="#reviews"><span data-lang="en" class="active">Reviews</span><span data-lang="ru" class="active">Отзывы</span></a></li>
+    </ul>
+    <div class="foot-socials">
+      <a class="foot-soc" href="https://t.me/embr_chat" target="_blank" rel="noopener" title="Telegram"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+      <a class="foot-soc" href="https://www.youtube.com/channel/UCXZyZmjVx-g9ZiyRu_LObyA" target="_blank" rel="noopener" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a class="foot-soc" href="https://www.instagram.com/embr.media?igsh=bGlsaTkwZWlmbm1v&utm_source=qr" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+    </div>
+    <div class="foot-copy">© 2026 EMBR Studio · <a href="https://t.me/embr_chat" style="color:inherit;text-decoration:none;">@embr_chat</a></div>
+  </div>
+</footer>
+
+<script>
+// ── LANGUAGE SWITCH ──
+function setLang(lang) {
+  // toggle all [data-lang] blocks
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-lang') === lang);
+  });
+  // toggle lang buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+  });
+  // update html lang attr
+  document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
+  // Fix nav links — they have nested spans, handle separately
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    // hide/show anchor based on its first data-lang child
+    const spans = a.querySelectorAll('[data-lang]');
+    if (spans.length) {
+      spans.forEach(s => s.classList.toggle('active', s.getAttribute('data-lang') === lang));
+    }
+  });
+}
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ── INIT LANGUAGE on load ──
+setLang('ru');
+
+// ── SMOOTH SCROLL for nav links ──
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.in)')];
+      const idx = siblings.indexOf(entry.target);
+      setTimeout(() => entry.target.classList.add('in'), Math.max(0, idx) * 90);
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
